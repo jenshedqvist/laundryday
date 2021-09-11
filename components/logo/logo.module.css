@@ -1,0 +1,60 @@
+.logo {
+  --size: calc(var(--token-fluid-base-font-size) * 2);
+  --animation-speed: 0;
+}
+.logo:hover,
+.logo.is-animated {
+  --animation-speed: 2s;
+}
+
+.logo {
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  border-radius: var(--size);
+  overflow: hidden;
+  box-shadow: 0 0 0 calc(var(--size) / 15) silver;
+}
+.laundry {
+  border: solid calc(var(--size) / 2);
+  border-color: var(--token-color-yellow) var(--token-color-red)
+    var(--token-color-green) var(--token-color-blue);
+  animation: rotate var(--animation-speed) infinite ease-in-out;
+}
+.laundryCover {
+  position: absolute;
+  z-index: 1;
+  top: calc(
+    0% - (0.25rem - (var(--size) / 20))
+  ); /* Smaller logo = thicker laundry */
+  left: 0%;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 100%;
+  background-color: #fff;
+  animation: rotate-unevenly var(--animation-speed) infinite ease-in-out;
+  transform: translate(0%, -15%);
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate-unevenly {
+  0% {
+    transform: rotate(0) translate(0%, -15%);
+  }
+  50% {
+    transform: rotate(180deg) translate(-5%, -15%);
+  }
+  75% {
+    transform: rotate(360deg) translate(0%, -20%);
+  }
+  100% {
+    transform: rotate(360deg) translate(0%, -15%);
+  }
+}

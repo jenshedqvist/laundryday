@@ -13,9 +13,7 @@ export default function Home() {
         <meta name="description" content="Get shit washed" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header>
-        <Text.Title>Laundry Day</Text.Title>
-      </Header>
+      <Header />
       <Container>
         <Text.Prose className={styleUtil.mt} style={{ '--mt': 3 }}>
           <h2>UTZ</h2>
