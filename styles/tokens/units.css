@@ -1,0 +1,5 @@
+:root {
+  --token-base-unit: 8;
+  --token-base-unit-rem: 0.5rem;
+  --token-rem-pixel: 0.0625rem; /* 1rem/16 = "1px" */
+}

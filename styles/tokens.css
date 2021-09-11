@@ -1,1 +1,5 @@
+@import './tokens/units.css';
+@import './tokens/borders.css';
+@import './tokens/colors.css';
+@import './tokens/grid.css';
 @import './tokens/typography.css';

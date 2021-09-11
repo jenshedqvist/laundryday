@@ -1,2 +1,4 @@
 .header {
+  padding: calc(var(--token-base-unit-rem) * 4) 0;
+  border-bottom: var(--token-border-rem-3) solid;
 }

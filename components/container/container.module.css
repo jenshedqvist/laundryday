@@ -3,4 +3,5 @@
   max-width: calc(
     (var(--token-page-max-width) / var(--token-base-font-size)) * 1rem
   );
+  padding: 0 var(--token-grid-gutter);
 }

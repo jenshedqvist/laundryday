@@ -1,0 +1,12 @@
+:root {
+  --token-color-yellow: hsl(44, 85%, 74%);
+  --token-color-yellow-dark: hsl(44, 85%, 24%);
+  --token-color-red: hsl(353, 93%, 65%);
+  --token-color-red-dark: hsl(353, 63%, 35%);
+  --token-color-peach: hsl(11, 83%, 77%);
+  --token-color-peach-dark: hsl(11, 83%, 27%);
+  --token-color-blue: hsl(207, 93%, 42%);
+  --token-color-blue-dark: hsl(207, 93%, 22%);
+  --token-color-green: hsl(138, 60%, 53%);
+  --token-color-green-dark: hsl(138, 50%, 33%);
+}

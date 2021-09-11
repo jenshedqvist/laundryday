@@ -1,0 +1,37 @@
+.title,
+.prose h1 {
+  font-size: calc(
+    var(--token-fluid-base-font-size) * var(--token-font-scale) *
+      var(--token-font-scale)
+  );
+  line-height: var(--token-font-scale);
+  font-weight: 700;
+  margin: 0;
+}
+
+.heading,
+.prose h2 {
+  font-size: calc(var(--token-fluid-base-font-size) * var(--token-font-scale));
+  line-height: var(--token-font-scale);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.subheading,
+.prose h3 {
+  font-size: var(--token-fluid-base-font-size);
+  line-height: var(--token-font-scale);
+  font-weight: 600;
+  color: var(--token-color-yellow-dark);
+  margin: 0;
+}
+
+.prose p {
+  font-size: var(--token-fluid-base-font-size);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.prose small {
+  font-size: calc(var(--token-fluid-base-font-size) * 0.75);
+  color: var(--token-color-yellow-dark);
+}

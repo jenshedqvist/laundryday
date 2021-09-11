@@ -1,0 +1,21 @@
+.mt {
+  margin-top: calc(var(--mt) * var(--token-base-unit-rem));
+}
+.mt.mt-test {
+  --mt: 4;
+}
+.mt-1 {
+  margin-top: var(--token-base-unit-rem);
+}
+.mt-2 {
+  margin-top: var(--token-base-unit-rem) * 2;
+}
+.mt-3 {
+  margin-top: var(--token-base-unit-rem) * 3;
+}
+.mt-4 {
+  margin-top: var(--token-base-unit-rem) * 4;
+}
+.mt-5 {
+  margin-top: var(--token-base-unit-rem) * 5;
+}

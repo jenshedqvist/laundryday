@@ -1,0 +1,5 @@
+:root {
+  --token-border-rem-1: var(--token-rem-pixel);
+  --token-border-rem-2: calc(var(--token-rem-pixel) * 2);
+  --token-border-rem-3: calc(var(--token-rem-pixel) * 3);
+}
