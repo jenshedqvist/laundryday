@@ -1,7 +1,11 @@
 import classNames from 'classnames';
 import styles from './logo.module.css';
 
-export default function Logo({ animate = false, ...restProps }) {
+interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
+  animate?: boolean;
+}
+
+export default function Logo({ animate = false, ...restProps }: LogoProps) {
   return (
     <div
       className={classNames(styles.logo, {
