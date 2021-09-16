@@ -1,0 +1,30 @@
+.bgYellow {
+  background-color: var(--token-color-red);
+}
+.bgYellowDark {
+  background-color: var(--token-color-red-dark);
+}
+.bgRed {
+  background-color: var(--token-color-red);
+}
+.bgRedDark {
+  background-color: var(--token-color-red-dark);
+}
+.bgPeach {
+  background-color: var(--token-color-peach);
+}
+.bgPeachDark {
+  background-color: var(--token-color-peach-dark);
+}
+.bgBlue {
+  background-color: var(--token-color-blue);
+}
+.bgBlueDark {
+  background-color: var(--token-color-blue-dark);
+}
+.bgGreen {
+  background-color: var(--token-color-green);
+}
+.bgGreenDark {
+  background-color: var(--token-color-green-dark);
+}

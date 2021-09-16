@@ -1,15 +1,32 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { GetServerSideProps, NextPage } from 'next';
-import { Booking, WeeklyUtz } from '../data/commonTypes';
+import dayjs from '../lib/dayjs';
+import { GetServerSideProps } from 'next';
+import type { Booking } from '../data/commonTypes';
 import Routes from '../data/routes';
+import {
+  getAvailableHours,
+  slotsPerDay,
+  getDayName,
+  getWeekDates,
+} from '../lib/calendar';
+import { createNumberRange, groupBy } from '../lib/utils';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Container from '../components/container';
 import Text from '../components/text';
+import UtzList from '../components/utzList';
 import styleUtil from '../styles/utils/space.module.css';
 
-export default function Home({ weeklyUtz }: { weeklyUtz: WeeklyUtz[] }) {
+export default function Home({ bookings }: { bookings: Booking[] }) {
+  const thisWeekNum = dayjs().isoWeek();
+  const weeklyCalendar: WeeklyDates[] = getWeekDates([
+    thisWeekNum,
+    thisWeekNum + 2,
+  ]).map((dates, index) => ({
+    week: thisWeekNum + index,
+    dates,
+  }));
   return (
     <>
       <Head>
@@ -21,18 +38,48 @@ export default function Home({ weeklyUtz }: { weeklyUtz: WeeklyUtz[] }) {
       <Container>
         <Text.Prose className={styleUtil.mt}>
           <h2>Current availability</h2>
-          {weeklyUtz.map((utz: WeeklyUtz) => (
-            <div key={utz.week}>
-              <h3>
-                {utz.week} ({utz.bookings.length})
-              </h3>
-              {utz.bookings.map((b: Booking) => (
-                <p key={b.id}>
-                  {b.start} {b.end} {b.rooms}
-                </p>
-              ))}
-            </div>
-          ))}
+          {weeklyCalendar
+            .filter((weeklyDates: WeeklyDates) => {
+              const currentWeek = dayjs().isoWeek();
+              return (
+                weeklyDates.week === currentWeek ||
+                weeklyDates.week === currentWeek + 1
+              );
+            })
+            .map((weeklyDates: WeeklyDates) => {
+              const bookingsThisWeek = bookings.filter(
+                (b: Booking) => b.week === weeklyDates.week
+              );
+              return (
+                <div key={weeklyDates.week}>
+                  <h3>
+                    Week {weeklyDates.week} ({bookingsThisWeek.length})
+                  </h3>
+                  <UtzList>
+                    {weeklyDates.dates.map((date: Date) => {
+                      const bookingsThisDay = bookingsThisWeek.filter(
+                        (booking: Booking) =>
+                          dayjs(date).isSame(dayjs(booking.date), 'day')
+                      );
+                      const dailyUtzRatio = getDailyUtz(bookingsThisDay);
+                      const dailyUtzPercent = Math.round(
+                        100 - dailyUtzRatio * 100
+                      );
+                      return (
+                        <UtzList.Item
+                          key={date.toString()}
+                          utz={dailyUtzPercent}
+                        >
+                          {getDayName(date)} ({bookingsThisDay.length}) (
+                          {dailyUtzRatio})
+                        </UtzList.Item>
+                      );
+                    })}
+                  </UtzList>
+                </div>
+              );
+            })}
+
           <p>
             <small>(your current bookings not included)</small>
           </p>
@@ -52,13 +99,25 @@ export default function Home({ weeklyUtz }: { weeklyUtz: WeeklyUtz[] }) {
   );
 }
 
+function getDailyUtz(bookings: Booking[]): number {
+  const hoursLeft = getAvailableHours(
+    bookings.map((b: Booking) => b.hourRange)
+  );
+  return (hoursLeft.length - 1) / slotsPerDay;
+}
+
+type WeeklyDates = {
+  week: number;
+  dates: Date[];
+};
+
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch('http://localhost:3000/api/bookings/utz');
-  const weeklyUtz = await res.json();
+  const res = await fetch('http://localhost:3000/api/bookings/');
+  const bookings: Booking[] = await res.json();
 
   return {
     props: {
-      weeklyUtz,
+      bookings,
     },
   };
 };

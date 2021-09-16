@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Booking } from '../../../data/commonTypes';
-import bookings from '../../../data/bookings';
+import bookings from '../../../fixtures/bookings';
 
 export default function handler(
   req: NextApiRequest,

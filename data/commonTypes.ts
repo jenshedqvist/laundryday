@@ -1,17 +1,18 @@
 export type RoomId = number;
 export type UtzOfDay = number;
+export type HourOfDay = number;
+export type HourRange = [number, number];
 
-export interface Booking {
-  id: number;
+export type Booking = {
+  id: string;
   week: number;
-  start: Date;
-  end: Date;
-  rooms: RoomId[];
-  utz?: UtzOfDay;
-}
+  date: Date;
+  hourRange: [HourOfDay, HourOfDay];
+  room: RoomId;
+  isOwn: boolean;
+};
 
-export interface WeeklyUtz {
+export type WeeklyBookings = {
   week: number;
   bookings: Booking[];
-  utz?: UtzOfDay;
-}
+};
