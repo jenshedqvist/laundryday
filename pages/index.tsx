@@ -59,7 +59,7 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
                       <small>
                         {dayjs(weeklyDates.dates[0]).format('D MMM')} -{' '}
                         {dayjs(
-                          weeklyDates.dates[weeklyDates.dates.length]
+                          weeklyDates.dates[weeklyDates.dates.length - 1]
                         ).format('D MMM')}
                       </small>
                     </div>
