@@ -45,9 +45,6 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
               return isWithinRange(weekRange, weeklyDates.week);
             })
             .map((weeklyDates: WeeklyDates) => {
-              const bookingsThisWeek = bookings.filter(
-                (b: Booking) => b.week === weeklyDates.week
-              );
               return (
                 <div key={weeklyDates.week}>
                   <Card className={spaceUtil.mb3}>
@@ -68,8 +65,9 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
                     </div>
                     <UtzList>
                       {weeklyDates.dates.map((date: Date) => {
-                        const bookingsThisDay = bookingsThisWeek.filter(
+                        const bookingsThisDay = bookings.filter(
                           (booking: Booking) =>
+                            booking.week === weeklyDates.week &&
                             dayjs(date).isSame(dayjs(booking.date), 'day')
                         );
                         const dailyUtzRatio = getDailyUtz(bookingsThisDay);
