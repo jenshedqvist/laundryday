@@ -10,7 +10,7 @@ import {
   getDayName,
   getWeekDates,
 } from '../lib/calendar';
-import { createNumberRange, groupBy } from '../lib/utils';
+import { isWithinRange } from '../lib/utils';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Container from '../components/container';
@@ -20,13 +20,13 @@ import styleUtil from '../styles/utils/space.module.css';
 
 export default function Home({ bookings }: { bookings: Booking[] }) {
   const thisWeekNum = dayjs().isoWeek();
-  const weeklyCalendar: WeeklyDates[] = getWeekDates([
-    thisWeekNum,
-    thisWeekNum + 2,
-  ]).map((dates, index) => ({
-    week: thisWeekNum + index,
-    dates,
-  }));
+  const weekRange = [thisWeekNum, thisWeekNum + 2];
+  const weeklyCalendar: WeeklyDates[] = getWeekDates(weekRange).map(
+    (dates, index) => ({
+      week: thisWeekNum + index,
+      dates,
+    })
+  );
   return (
     <>
       <Head>
@@ -39,12 +39,8 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
         <Text.Prose className={styleUtil.mt}>
           <h2>Current availability</h2>
           {weeklyCalendar
-            .filter((weeklyDates: WeeklyDates) => {
-              const currentWeek = dayjs().isoWeek();
-              return (
-                weeklyDates.week === currentWeek ||
-                weeklyDates.week === currentWeek + 1
-              );
+            .filter(function filterThreeWeeks(weeklyDates: WeeklyDates) {
+              return isWithinRange(weekRange, weeklyDates.week);
             })
             .map((weeklyDates: WeeklyDates) => {
               const bookingsThisWeek = bookings.filter(

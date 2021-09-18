@@ -8,6 +8,11 @@ export const compose =
   (x: any) =>
     fns.reduceRight((v, f) => f(v), x);
 
+export const isWithinRange = (range: number[], num: number): boolean => {
+  const [min, max] = range;
+  return num >= min && num <= max;
+};
+
 export const createNumberRange = (
   start: number,
   end: number,

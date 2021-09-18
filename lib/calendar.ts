@@ -32,7 +32,7 @@ export function getDayName(date: Date): string {
   return getDateString({ weekday: 'long' }, date);
 }
 
-export function getWeekDates(weekRange: [number, number]) {
+export function getWeekDates(weekRange: number[]) {
   const [start, end] = weekRange;
   return createNumberRange(start, end).map((weekNum) => {
     let dates: Date[] = [];
