@@ -15,8 +15,10 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import Container from '../components/container';
 import Text from '../components/text';
+import Card from '../components/card';
 import UtzList from '../components/utzList';
-import styleUtil from '../styles/utils/space.module.css';
+import spaceUtil from '../styles/utils/space.module.css';
+import flexUtils from '../styles/utils/flex.module.css';
 
 export default function Home({ bookings }: { bookings: Booking[] }) {
   const thisWeekNum = dayjs().isoWeek();
@@ -36,7 +38,7 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
       </Head>
       <Header />
       <Container>
-        <Text.Prose className={styleUtil.mt}>
+        <Text.Prose>
           <h2>Current availability</h2>
           {weeklyCalendar
             .filter(function filterThreeWeeks(weeklyDates: WeeklyDates) {
@@ -48,30 +50,44 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
               );
               return (
                 <div key={weeklyDates.week}>
-                  <h3>
-                    Week {weeklyDates.week} ({bookingsThisWeek.length})
-                  </h3>
-                  <UtzList>
-                    {weeklyDates.dates.map((date: Date) => {
-                      const bookingsThisDay = bookingsThisWeek.filter(
-                        (booking: Booking) =>
-                          dayjs(date).isSame(dayjs(booking.date), 'day')
-                      );
-                      const dailyUtzRatio = getDailyUtz(bookingsThisDay);
-                      const dailyUtzPercent = Math.round(
-                        100 - dailyUtzRatio * 100
-                      );
-                      return (
-                        <UtzList.Item
-                          key={date.toString()}
-                          utz={dailyUtzPercent}
-                        >
-                          {getDayName(date)} ({bookingsThisDay.length}) (
-                          {dailyUtzRatio})
-                        </UtzList.Item>
-                      );
-                    })}
-                  </UtzList>
+                  <Card className={spaceUtil.mb3}>
+                    <div
+                      className={`${flexUtils.flex} ${flexUtils.justifyBetween} ${flexUtils.alignBaseline}`}
+                    >
+                      <h3>
+                        <Link href={`/${Routes.Calendar}`}>
+                          {`Week ${weeklyDates.week}`}
+                        </Link>
+                      </h3>
+                      <small>
+                        {dayjs(weeklyDates.dates[0]).format('D MMM')} -{' '}
+                        {dayjs(
+                          weeklyDates.dates[weeklyDates.dates.length]
+                        ).format('D MMM')}
+                      </small>
+                    </div>
+                    <UtzList>
+                      {weeklyDates.dates.map((date: Date) => {
+                        const bookingsThisDay = bookingsThisWeek.filter(
+                          (booking: Booking) =>
+                            dayjs(date).isSame(dayjs(booking.date), 'day')
+                        );
+                        const dailyUtzRatio = getDailyUtz(bookingsThisDay);
+                        const dailyUtzPercent = Math.round(
+                          100 - dailyUtzRatio * 100
+                        );
+                        return (
+                          <UtzList.Item
+                            key={date.toString()}
+                            utz={dailyUtzPercent}
+                          >
+                            {getDayName(date)} ({bookingsThisDay.length}) (
+                            {dailyUtzRatio})
+                          </UtzList.Item>
+                        );
+                      })}
+                    </UtzList>
+                  </Card>
                 </div>
               );
             })}

@@ -1,0 +1,10 @@
+.card {
+  --bg: white;
+  --border-color: #cfcfcf;
+
+  padding: var(--token-fluid-base-font-size)
+    calc(var(--token-fluid-base-font-size) * 1.5);
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--token-border-radius);
+}

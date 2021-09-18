@@ -1,4 +1,5 @@
 :root {
+  /* Palette colors */
   --token-color-yellow: hsl(44, 85%, 74%);
   --token-color-yellow-dark: hsl(44, 85%, 24%);
   --token-color-red: hsl(353, 93%, 65%);
@@ -9,4 +10,8 @@
   --token-color-blue-dark: hsl(207, 93%, 22%);
   --token-color-green: hsl(138, 60%, 53%);
   --token-color-green-dark: hsl(138, 50%, 33%);
+
+  /* Semantic colors */
+  --token-color-interactive: var(--token-color-blue);
+  --token-color-body: hsl(9, 83%, 95%);
 }
