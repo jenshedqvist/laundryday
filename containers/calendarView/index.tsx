@@ -37,12 +37,25 @@ export default function CalendarView({
 }: CalendarContainerProps) {
   const [bodyBounds, setBodyBounds] = React.useState<DOMRect>();
   const [focusedHour, setFocusedHour] = React.useState<number>(0);
-  const [editState, setEditState] = React.useState<EditStates>(EditStates.IDLE);
+  const [focusedDay, setFocusedDay] = React.useState<number>(0);
   const calendarBody = React.useRef<HTMLDivElement>(null);
+
+  const defaulteditedBookigState = {
+    booking: null,
+    state: EditStates.IDLE,
+  };
+  const [editedBookigState, setEditedBookingState] = React.useState<{
+    booking: Booking | null;
+    state: EditStates;
+  }>(defaulteditedBookigState);
+  const cleareditedBookigState = () =>
+    setEditedBookingState(defaulteditedBookigState);
+
   const bookableHours = createNumberRange(7, 22);
   const totalBookableHours = tail(bookableHours) - head(bookableHours);
   const customProperties = {
     '--js-focusedHour': focusedHour,
+    '--js-focusedDay': focusedDay,
   } as React.CSSProperties;
 
   React.useEffect(
@@ -73,7 +86,7 @@ export default function CalendarView({
                     flexUtils.alignBaseline
                   )}
                 >
-                  <h3>{`Week ${weeklyDates.week}`}</h3>
+                  <h3>Week {weeklyDates.week}</h3>
                   <small>
                     {dayjs(head(weeklyDates.dates)).format('D MMM')} -{' '}
                     {dayjs(tail(weeklyDates.dates)).format('D MMM')}
@@ -85,7 +98,7 @@ export default function CalendarView({
                 ref={calendarBody}
                 hours={bookableHours}
                 onMouseUp={() => {
-                  setEditState(EditStates.IDLE);
+                  cleareditedBookigState();
                 }}
               >
                 {weeklyDates.dates.map((date: Date) => {
@@ -108,30 +121,53 @@ export default function CalendarView({
                       ) {
                         if (!bodyBounds) return;
                         const clientY: number = event.clientY;
-                        const hour = Math.round(
-                          clientY / (bodyBounds.height / totalBookableHours)
-                        );
+                        const hour =
+                          Math.round(
+                            clientY / (bodyBounds.height / totalBookableHours)
+                          ) + 1;
+
                         if (availableHours.includes(hour)) {
-                          setFocusedHour(hour);
+                          // If we are dragging an event we need to constrain to existing bookings
+                          if (
+                            editedBookigState.booking &&
+                            editedBookigState.state === EditStates.DRAGGING
+                          ) {
+                            const duration = getBookingDuration(
+                              editedBookigState.booking
+                            );
+                            if (availableHours.includes(hour - 1 + duration)) {
+                              setFocusedHour(hour);
+                            }
+                          } else {
+                            setFocusedHour(hour);
+                          }
+
+                          setFocusedDay(dayjs(date).isoWeekday());
                         }
                       }}
                     >
                       {bookingsThisDay.map((booking) => {
                         const [start, end] = booking.hourRange;
+                        const isBeingDragged =
+                          booking.isOwn &&
+                          editedBookigState.booking?.id === booking.id &&
+                          editedBookigState.state === EditStates.DRAGGING;
+
                         return (
                           <Calendar.Event
                             start={start}
                             end={end}
-                            isDragged={
-                              booking.isOwn && editState === EditStates.DRAGGING
-                            }
+                            isDragged={isBeingDragged}
                             title={
                               booking.isOwn
                                 ? `Booked between ${start}:00 and ${end}:00 hours`
                                 : `Unavailable between ${start}:00 and ${end}:00 hours`
                             }
                             onMouseDown={() =>
-                              setEditState(EditStates.DRAGGING)
+                              setEditedBookingState({
+                                booking,
+                                state: EditStates.DRAGGING,
+                              })
                             }
                             isOwn={booking.isOwn}
                           />
@@ -148,3 +184,6 @@ export default function CalendarView({
     </>
   );
 }
+
+const getBookingDuration = (booking: Booking) =>
+  tail(booking.hourRange) - head(booking.hourRange);

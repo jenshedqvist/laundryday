@@ -112,10 +112,20 @@
   padding: 0.5rem;
   overflow: hidden;
   text-align: center;
+  user-select: none;
 }
 .event.eventDragged {
+  /* Note: Ok this was a bad idea haha */
   --start: var(--js-focusedHour) !important;
   --end: calc(var(--js-focusedHour) + var(--duration)) !important;
+
+  cursor: move;
+}
+.event.eventResized {
+  /* Note: Ok this was a bad idea haha */
+  --end: calc(var(--js-focusedHour)) !important;
+
+  cursor: s-resize;
 }
 
 .event.booking {
