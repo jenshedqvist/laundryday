@@ -11,6 +11,7 @@
   --token-color-green: hsl(138, 60%, 53%);
   --token-color-green-dark: hsl(138, 50%, 33%);
   --token-color-black: hsl(10, 10%, 0%);
+  --token-color-white: hsla(100, 100%, 100%, 90%);
 
   /* Greys */
   --token-min-lightness-large-text: 45%;
@@ -34,6 +35,8 @@
   --token-bg-body: hsl(9, 83%, 95%);
   --token-color-text-primary: var(--token-color-black);
   --token-color-text-secondary: var(--token-color-grey);
+  --token-color-text-in-dark: var(--token-color-white);
+  --token-color-interactive-on-dark: var(--token-color-white);
 }
 
 @media (min-width: 768px) {

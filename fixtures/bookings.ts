@@ -13,6 +13,14 @@ const bookings: Booking[] = [
   {
     id: uuidv4(),
     week: 37,
+    date: new Date('2021-09-15'),
+    hourRange: [19, 21],
+    room: 2,
+    isOwn: true,
+  },
+  {
+    id: uuidv4(),
+    week: 37,
     date: new Date('2021-09-16'),
     hourRange: [10, 12],
     room: 1,

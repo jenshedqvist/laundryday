@@ -28,3 +28,6 @@
 .bgGreenDark {
   background-color: var(--token-color-green-dark);
 }
+.textOnDark {
+  color: var(--token-color-text-in-dark);
+}

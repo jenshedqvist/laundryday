@@ -82,14 +82,19 @@ export default function WeekView({ bookings }: { bookings: Booking[] }) {
                         dayjs(date).isSame(dayjs(booking.date), 'day')
                     );
                     return (
-                      <Calendar.Day name={getDayName(date)}>
+                      <Calendar.Day date={date}>
                         {bookingsThisDay.map((booking) => {
                           const [start, end] = booking.hourRange;
                           return (
                             <Calendar.Event
                               start={start}
                               end={end}
-                              title={`Unavailable between ${start}:00 and ${end}:00 hours`}
+                              title={
+                                booking.isOwn
+                                  ? `Booked between ${start}:00 and ${end}:00 hours`
+                                  : `Unavailable between ${start}:00 and ${end}:00 hours`
+                              }
+                              isOwn={booking.isOwn}
                             />
                           );
                         })}
