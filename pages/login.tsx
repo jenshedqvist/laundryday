@@ -1,15 +1,27 @@
-import { useRouter } from 'next/router';
-import Routes from '../data/routes';
+import React from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { UserContext } from '../contexts/User';
+import Routes from '../data/routes';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Container from '../components/container';
-import Text from '../components/text';
-import styleUtil from '../styles/utils/space.module.css';
+import Card from '../components/card';
+import spaceUtil from '../styles/utils/space.module.css';
+import sizeUtil from '../styles/utils/size.module.css';
+import formStyles from '../components/form/form.module.css';
+import buttonStyles from '../components/button/button.module.css';
 
 export default function Login() {
+  const { setIsAuthenticated } = React.useContext(UserContext);
   const router = useRouter();
-  const { week } = router.query;
+  const { redirect } = router.query;
+  const redirectPath = redirect
+    ? Array.isArray(redirect)
+      ? redirect.join('')
+      : redirect
+    : `/${Routes.Overview}`;
+
   return (
     <>
       <Head>
@@ -19,17 +31,46 @@ export default function Login() {
       </Head>
       <Header />
       <Container>
-        <form
-          action={`/${Routes.Overview}`}
-          onSubmit={() => router.push(Routes.Overview)}
-        >
-          <Text.Prose className={styleUtil.mt3}>
-            <h2>Login {week}</h2>
-            <p>[Username]</p>
-            <p>[Password]</p>
-            <button>Log in</button>
-          </Text.Prose>
-        </form>
+        <Card className={sizeUtil.size1of2}>
+          <form
+            className={spaceUtil.mt3}
+            action={redirectPath}
+            method="POST"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setIsAuthenticated(true);
+              router.push(redirectPath);
+            }}
+          >
+            <h2 className={formStyles.formHeading}>Login to manage bookings</h2>
+            <div className={spaceUtil.mb3}>
+              <label htmlFor="email" className={formStyles.label}>
+                E-mail (user name)
+              </label>
+              <input
+                type="email"
+                id="email"
+                className={formStyles.singleField}
+                required
+                placeholder="your.email@acme.corp"
+              />
+            </div>
+            <div className={spaceUtil.mb3}>
+              <label htmlFor="pw" className={formStyles.label}>
+                Password
+              </label>
+              <input
+                type="password"
+                id="pw"
+                required
+                className={formStyles.singleField}
+              />
+            </div>
+            <button className={buttonStyles.button} type="submit">
+              Log in
+            </button>
+          </form>
+        </Card>
       </Container>
       <Footer />
     </>

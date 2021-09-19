@@ -1,7 +1,10 @@
+import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import dayjs from '../lib/dayjs';
 import { GetServerSideProps } from 'next';
+
+import { UserContext } from '../contexts/User';
 import type { Booking } from '../data/commonTypes';
 import Routes from '../data/routes';
 import {
@@ -21,6 +24,8 @@ import spaceUtil from '../styles/utils/space.module.css';
 import flexUtils from '../styles/utils/flex.module.css';
 
 export default function Home({ bookings }: { bookings: Booking[] }) {
+  const { isAuthenticated } = React.useContext(UserContext);
+
   const thisWeekNum = dayjs().isoWeek();
   const weekRange = [thisWeekNum, thisWeekNum + 2];
   const weeklyCalendar: WeeklyDates[] = getWeekDates(weekRange).map(
@@ -29,6 +34,7 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
       dates,
     })
   );
+
   return (
     <>
       <Head>
@@ -52,7 +58,13 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
                       className={`${flexUtils.flex} ${flexUtils.justifyBetween} ${flexUtils.alignBaseline}`}
                     >
                       <h3>
-                        <Link href={`/${Routes.Calendar}/${weeklyDates.week}`}>
+                        <Link
+                          href={
+                            isAuthenticated
+                              ? `/${Routes.Calendar}/${weeklyDates.week}`
+                              : `${Routes.Login}?redirect=/${Routes.Calendar}/${weeklyDates.week}`
+                          }
+                        >
                           {`Week ${weeklyDates.week}`}
                         </Link>
                       </h3>
@@ -95,6 +107,14 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
           </p>
           <h3>View and manage your bookings:</h3>
           <p>[Form]</p>
+          <button
+            onClick={(event) => {
+              event.preventDefault();
+              setIsAuthenticated(true);
+            }}
+          >
+            TEST LOGIN
+          </button>
           <p>
             <Link href={`/${Routes.Login}`}>Log in</Link>
           </p>

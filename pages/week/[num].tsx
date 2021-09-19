@@ -1,8 +1,10 @@
+import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import dayjs from '../../lib/dayjs';
 import { GetServerSideProps } from 'next';
+import dayjs from '../../lib/dayjs';
+import { UserContext } from '../../contexts/User';
 import type { Booking } from '../../data/commonTypes';
 import Routes from '../../data/routes';
 import {
@@ -11,7 +13,7 @@ import {
   getDayName,
   getWeekDates,
 } from '../../lib/calendar';
-import { createNumberRange, isWithinRange } from '../../lib/utils';
+import { createNumberRange } from '../../lib/utils';
 import Header from '../../components/header';
 import Footer from '../../components/footer';
 import Container from '../../components/container';
@@ -24,9 +26,16 @@ import flexUtils from '../../styles/utils/flex.module.css';
 export default function WeekView({ bookings }: { bookings: Booking[] }) {
   const router = useRouter();
   const routerWeek = Number(router.query.num);
+  const { isAuthenticated } = React.useContext(UserContext);
+
+  if (process.browser && !isAuthenticated) {
+    // Quick fix for Next choking on router being called on server
+    router.push(
+      `/${Routes.Login}?redirect=${`/${Routes.Calendar}/${routerWeek}`}`
+    );
+  }
 
   const weekRange = [routerWeek, routerWeek + 2];
-
   const weeklyCalendar: WeeklyDates[] = getWeekDates(weekRange).map(
     (dates, index) => ({
       week: weekRange[0] + index,

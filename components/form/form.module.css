@@ -1,0 +1,19 @@
+.singleField {
+  --font-size: var(--token-fluid-base-font-size);
+
+  display: block;
+  width: 100%;
+  border: 2px solid var(--token-color-grey);
+  padding: calc(var(--font-size) / 2);
+  font-size: var(--font-size);
+}
+
+.formHeading {
+  font-size: var(--token-font-size-lvl-3);
+}
+
+.label {
+  display: block;
+  font-size: var(--token-font-size-small);
+  margin-bottom: 0.5rem;
+}
