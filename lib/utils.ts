@@ -10,6 +10,10 @@ export const compose =
   (x: any) =>
     fns.reduceRight((v, f) => f(v), x);
 
+export const head = (arr: any[]) => arr[0];
+
+export const tail = (arr: any[]) => arr[arr.length - 1];
+
 export const isWithinRange = (range: number[], num: number): boolean => {
   const [min, max] = range;
   return num >= min && num <= max;
@@ -41,10 +45,13 @@ export const groupBy = (
     return groupedList;
   }, {} as groupedList);
 
-export function passProps(reactChildren: React.ReactNode, props: object) {
+export function passProps(
+  reactChildren: React.ReactNode,
+  transformProps: (props: object) => object
+) {
   return React.Children.map(reactChildren, (element) => {
     if (React.isValidElement(element)) {
-      return React.cloneElement(element, props);
+      return React.cloneElement(element, transformProps(element.props));
     }
   });
 }
