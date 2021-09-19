@@ -36,10 +36,8 @@ export default function CalendarView({
   const [updatedBookings, setUpdatedBookings] = React.useState<{
     [key: string]: Booking;
   }>({});
-  const [bodyBounds, setBodyBounds] = React.useState<DOMRect>();
   const [focusedHour, setFocusedHour] = React.useState<number>(0);
   const [focusedDay, setFocusedDay] = React.useState<number>(0);
-  const calendarBody = React.useRef<HTMLDivElement>(null);
 
   const defaultEditedBookingState = {
     booking: null,
@@ -59,16 +57,6 @@ export default function CalendarView({
     '--js-focusedDay': focusedDay,
   } as React.CSSProperties;
 
-  React.useEffect(
-    function updateBoundsOnNewRef() {
-      if (calendarBody.current) {
-        const bounds: DOMRect = calendarBody.current.getBoundingClientRect();
-        setBodyBounds(bounds);
-      }
-    },
-    [calendarBody.current]
-  );
-
   // Mockup some state here just for feels...
   bookings = bookings.map((x: Booking) => {
     return updatedBookings[x.id] || x;
@@ -76,7 +64,22 @@ export default function CalendarView({
 
   return (
     <>
-      {weeklyCalendar.map((weeklyDates: WeeklyDates) => {
+      {weeklyCalendar.map((weeklyDates: WeeklyDates, index: number) => {
+        const calendarBody = React.useRef<HTMLDivElement>(null);
+        const [bodyBounds, setBodyBounds] = React.useState<DOMRect>();
+
+        React.useEffect(
+          function updateBoundsOnNewRef() {
+            if (calendarBody.current) {
+              console.log('updating bounds', calendarBody?.current.id);
+              const bounds: DOMRect =
+                calendarBody.current.getBoundingClientRect();
+              setBodyBounds(bounds);
+            }
+          },
+          [calendarBody.current]
+        );
+
         return (
           <Card
             className={classNames(spaceUtil.mb3, className)}
@@ -100,6 +103,7 @@ export default function CalendarView({
                 </Text.Prose>
               </Calendar.Header>
               <Calendar.Body
+                id={`body-${index}`}
                 style={customProperties}
                 ref={calendarBody}
                 hours={bookableHours}
@@ -136,6 +140,7 @@ export default function CalendarView({
 
                   return (
                     <Calendar.Day
+                      key={date.toString()}
                       date={date}
                       onMouseMove={function updateFocusedHourOnMove(
                         event: React.MouseEvent<HTMLDivElement>
@@ -143,7 +148,8 @@ export default function CalendarView({
                         if (!bodyBounds) return;
                         const clientY: number = event.clientY;
                         const hour = Math.round(
-                          clientY / (bodyBounds.height / totalBookableHours)
+                          (clientY + window.scrollY) /
+                            (bodyBounds.height / totalBookableHours)
                         );
 
                         if (availableHours.includes(hour)) {

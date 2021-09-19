@@ -1,7 +1,7 @@
 .calendar {
   --weekday-labels-height: calc(var(--token-fluid-base-font-size) * 2);
   --calendar-bg-color: white;
-  --calendar-height: 60vh;
+  --calendar-height: 900px;
 
   height: 100%;
   display: grid;

@@ -15,7 +15,7 @@ export default function Header({ children, ...restProps }: HeaderProps) {
   return (
     <header className={classNames(styles.header)} {...restProps}>
       <Container>
-        <Link href={`/${Routes.Home}/`}>
+        <Link href={`/${Routes.Home}`}>
           <Logo />
         </Link>
         {children}
