@@ -33,6 +33,9 @@ export default function CalendarView({
   weeklyCalendar,
   className,
 }: CalendarContainerProps) {
+  const [updatedBookings, setUpdatedBookings] = React.useState<{
+    [key: string]: Booking;
+  }>({});
   const [bodyBounds, setBodyBounds] = React.useState<DOMRect>();
   const [focusedHour, setFocusedHour] = React.useState<number>(0);
   const [focusedDay, setFocusedDay] = React.useState<number>(0);
@@ -66,6 +69,11 @@ export default function CalendarView({
     [calendarBody.current]
   );
 
+  // Mockup some state here just for feels...
+  bookings = bookings.map((x: Booking) => {
+    return updatedBookings[x.id] || x;
+  });
+
   return (
     <>
       {weeklyCalendar.map((weeklyDates: WeeklyDates) => {
@@ -96,6 +104,21 @@ export default function CalendarView({
                 ref={calendarBody}
                 hours={bookableHours}
                 onMouseUp={() => {
+                  // Mockup some state here just for feels...
+                  const justEditedBooking = editedBookingState.booking;
+                  if (justEditedBooking) {
+                    if (justEditedBooking.hourRange[0] !== focusedHour) {
+                      const duration = getBookingDuration(justEditedBooking);
+                      const updated = {
+                        ...justEditedBooking,
+                        hourRange: [focusedHour, focusedHour + duration],
+                      } as Booking;
+                      setUpdatedBookings({
+                        ...updatedBookings,
+                        [justEditedBooking.id]: updated,
+                      });
+                    }
+                  }
                   clearEditedBookingState();
                 }}
               >
