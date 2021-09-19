@@ -1,12 +1,9 @@
 import React from 'react';
 import dayjs from '../../lib/dayjs';
+
 import type { Booking } from '../../data/commonTypes';
-import {
-  getAvailableHours,
-  slotsPerDay,
-  createWeekUID,
-} from '../../lib/calendar';
-import { createNumberRange, isWithinRange, head, tail } from '../../lib/utils';
+import { getAvailableHours, createWeekUID } from '../../lib/calendar';
+import { createNumberRange, head, tail } from '../../lib/utils';
 
 import Text from '../../components/text';
 import Card from '../../components/card';
@@ -41,16 +38,16 @@ export default function CalendarView({
   const [focusedDay, setFocusedDay] = React.useState<number>(0);
   const calendarBody = React.useRef<HTMLDivElement>(null);
 
-  const defaulteditedBookigState = {
+  const defaultEditedBookingState = {
     booking: null,
     state: EditStates.IDLE,
   };
-  const [editedBookigState, setEditedBookingState] = React.useState<{
+  const [editedBookingState, setEditedBookingState] = React.useState<{
     booking: Booking | null;
     state: EditStates;
-  }>(defaulteditedBookigState);
-  const cleareditedBookigState = () =>
-    setEditedBookingState(defaulteditedBookigState);
+  }>(defaultEditedBookingState);
+  const clearEditedBookingState = () =>
+    setEditedBookingState(defaultEditedBookingState);
 
   const bookableHours = createNumberRange(7, 22);
   const totalBookableHours = tail(bookableHours) - head(bookableHours);
@@ -99,7 +96,7 @@ export default function CalendarView({
                 ref={calendarBody}
                 hours={bookableHours}
                 onMouseUp={() => {
-                  cleareditedBookigState();
+                  clearEditedBookingState();
                 }}
               >
                 {weeklyDates.dates.map((date: Date) => {
@@ -122,19 +119,18 @@ export default function CalendarView({
                       ) {
                         if (!bodyBounds) return;
                         const clientY: number = event.clientY;
-                        const hour =
-                          Math.round(
-                            clientY / (bodyBounds.height / totalBookableHours)
-                          ) + 1;
+                        const hour = Math.round(
+                          clientY / (bodyBounds.height / totalBookableHours)
+                        );
 
                         if (availableHours.includes(hour)) {
                           // If we are dragging an event we need to constrain to existing bookings
                           if (
-                            editedBookigState.booking &&
-                            editedBookigState.state === EditStates.DRAGGING
+                            editedBookingState.booking &&
+                            editedBookingState.state === EditStates.DRAGGING
                           ) {
                             const duration = getBookingDuration(
-                              editedBookigState.booking
+                              editedBookingState.booking
                             );
                             if (availableHours.includes(hour - 1 + duration)) {
                               setFocusedHour(hour);
@@ -151,11 +147,12 @@ export default function CalendarView({
                         const [start, end] = booking.hourRange;
                         const isBeingDragged =
                           booking.isOwn &&
-                          editedBookigState.booking?.id === booking.id &&
-                          editedBookigState.state === EditStates.DRAGGING;
+                          editedBookingState.booking?.id === booking.id &&
+                          editedBookingState.state === EditStates.DRAGGING;
 
                         return (
                           <Calendar.Event
+                            key={booking.id}
                             start={start}
                             end={end}
                             isDragged={isBeingDragged}

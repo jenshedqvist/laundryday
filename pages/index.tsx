@@ -107,11 +107,13 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
               );
             })}
         </Text.Prose>
-        <div style={{ textAlign: 'center' }} className={spaceUtil.mt5}>
-          <Link href={`/${Routes.Login}`}>
-            <a className={buttonStyles.button}>Login to manage bookings</a>
-          </Link>
-        </div>
+        {!isAuthenticated && (
+          <div style={{ textAlign: 'center' }} className={spaceUtil.mt5}>
+            <Link href={`/${Routes.Login}`}>
+              <a className={buttonStyles.button}>Login to manage bookings</a>
+            </Link>
+          </div>
+        )}
       </Container>
       <Footer />
     </>

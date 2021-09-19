@@ -90,31 +90,29 @@ interface DayProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export const Day = React.forwardRef(
-  ({
-    children,
-    className,
-    style,
-    date,
-    totalBookableHours = 0,
-    hours = [8, 16],
-    ...restProps
-  }: DayProps) => {
-    return (
-      <div className={styles.day}>
-        {date && (
-          <h2 className={styles.date}>
-            <small className={styles.dayName}>{getDayName(date)}</small>
-            {dayjs(date).date()}
-          </h2>
-        )}
-        <div className={classNames(styles.hourGrid, className)} {...restProps}>
-          {children}
-        </div>
+export function Day({
+  children,
+  className,
+  style,
+  date,
+  totalBookableHours = 0,
+  hours = [8, 16],
+  ...restProps
+}: DayProps) {
+  return (
+    <div className={styles.day}>
+      {date && (
+        <h2 className={styles.date}>
+          <small className={styles.dayName}>{getDayName(date)}</small>
+          {dayjs(date).date()}
+        </h2>
+      )}
+      <div className={classNames(styles.hourGrid, className)} {...restProps}>
+        {children}
       </div>
-    );
-  }
-);
+    </div>
+  );
+}
 Calendar.Day = Day;
 
 interface EventProps extends React.HTMLAttributes<HTMLDivElement> {
