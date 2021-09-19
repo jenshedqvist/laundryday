@@ -42,3 +42,7 @@ export function getWeekDates(weekRange: number[]) {
     return dates;
   });
 }
+
+export function createWeekUID(weekNum: number | string): string {
+  return `week-${weekNum}`;
+}

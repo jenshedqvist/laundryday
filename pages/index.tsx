@@ -12,6 +12,7 @@ import {
   slotsPerDay,
   getDayName,
   getWeekDates,
+  createWeekUID,
 } from '../lib/calendar';
 import { isWithinRange } from '../lib/utils';
 import Header from '../components/header';
@@ -61,8 +62,12 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
                         <Link
                           href={
                             isAuthenticated
-                              ? `/${Routes.Calendar}/${weeklyDates.week}`
-                              : `${Routes.Login}?redirect=/${Routes.Calendar}/${weeklyDates.week}`
+                              ? `/${Routes.Calendar}/${
+                                  weeklyDates.week
+                                }#${createWeekUID(weeklyDates.week)}`
+                              : `${Routes.Login}?redirect=/${Routes.Calendar}/${
+                                  weeklyDates.week
+                                }#${createWeekUID(weeklyDates.week)}`
                           }
                         >
                           {`Week ${weeklyDates.week}`}

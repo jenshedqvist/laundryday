@@ -10,6 +10,7 @@ import Routes from '../../data/routes';
 import {
   getAvailableHours,
   slotsPerDay,
+  createWeekUID,
   getDayName,
   getWeekDates,
 } from '../../lib/calendar';
@@ -35,7 +36,8 @@ export default function WeekView({ bookings }: { bookings: Booking[] }) {
     );
   }
 
-  const weekRange = [routerWeek, routerWeek + 2];
+  const currentWeekNum = dayjs().isoWeek();
+  const weekRange = [currentWeekNum, routerWeek + 2];
   const weeklyCalendar: WeeklyDates[] = getWeekDates(weekRange).map(
     (dates, index) => ({
       week: weekRange[0] + index,
@@ -53,7 +55,11 @@ export default function WeekView({ bookings }: { bookings: Booking[] }) {
       <Container>
         {weeklyCalendar.map((weeklyDates: WeeklyDates) => {
           return (
-            <Card className={spaceUtil.mb3} key={weeklyDates.week}>
+            <Card
+              className={spaceUtil.mb3}
+              key={weeklyDates.week}
+              id={createWeekUID(weeklyDates.week)}
+            >
               <Calendar>
                 <Calendar.Header>
                   <Text.Prose
@@ -99,13 +105,6 @@ export default function WeekView({ bookings }: { bookings: Booking[] }) {
       <Footer />
     </>
   );
-}
-
-function getDailyUtz(bookings: Booking[]): number {
-  const hoursLeft = getAvailableHours(
-    bookings.map((b: Booking) => b.hourRange)
-  );
-  return (hoursLeft.length - 1) / slotsPerDay;
 }
 
 type WeeklyDates = {

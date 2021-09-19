@@ -16,10 +16,11 @@ export default function Login() {
   const { setIsAuthenticated } = React.useContext(UserContext);
   const router = useRouter();
   const { redirect } = router.query;
+  const hash = document.location.hash;
   const redirectPath = redirect
     ? Array.isArray(redirect)
-      ? redirect.join('')
-      : redirect
+      ? `${redirect.join('')}${hash}`
+      : `${redirect}${hash}`
     : `/${Routes.Overview}`;
 
   return (
