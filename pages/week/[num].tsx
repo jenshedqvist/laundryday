@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import dayjs from '../../lib/dayjs';
@@ -12,6 +11,7 @@ import Header from '../../components/header';
 import Footer from '../../components/footer';
 import Container from '../../components/container';
 import CalendarView, { WeeklyDates } from '../../containers/calendarView';
+import spaceUtil from '../../styles/utils/space.module.css';
 
 export default function WeekView({ bookings }: { bookings: Booking[] }) {
   const router = useRouter();
@@ -43,7 +43,11 @@ export default function WeekView({ bookings }: { bookings: Booking[] }) {
       </Head>
       <Header />
       <Container>
-        <CalendarView bookings={bookings} weeklyCalendar={weeklyCalendar} />
+        <CalendarView
+          bookings={bookings}
+          weeklyCalendar={weeklyCalendar}
+          className={spaceUtil.mt4}
+        />
       </Container>
       <Footer />
     </>

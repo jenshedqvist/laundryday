@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { UserContext } from '../contexts/User';
 import Routes from '../data/routes';
@@ -32,9 +33,8 @@ export default function Login() {
       </Head>
       <Header />
       <Container>
-        <Card className={sizeUtil.size1of2}>
+        <Card className={classNames(sizeUtil.size1of2, spaceUtil.mt4)}>
           <form
-            className={spaceUtil.mt3}
             action={redirectPath}
             method="POST"
             onSubmit={(event) => {

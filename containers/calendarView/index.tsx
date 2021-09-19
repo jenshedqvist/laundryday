@@ -34,6 +34,7 @@ enum EditStates {
 export default function CalendarView({
   bookings,
   weeklyCalendar,
+  className,
 }: CalendarContainerProps) {
   const [bodyBounds, setBodyBounds] = React.useState<DOMRect>();
   const [focusedHour, setFocusedHour] = React.useState<number>(0);
@@ -73,7 +74,7 @@ export default function CalendarView({
       {weeklyCalendar.map((weeklyDates: WeeklyDates) => {
         return (
           <Card
-            className={spaceUtil.mb3}
+            className={classNames(spaceUtil.mb3, className)}
             key={weeklyDates.week}
             id={createWeekUID(weeklyDates.week)}
           >

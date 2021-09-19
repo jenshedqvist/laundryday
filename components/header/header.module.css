@@ -1,4 +1,7 @@
 .header {
+  /*  position: fixed;
+  top: 0;
+  left: 0; */
   padding: calc(var(--token-base-unit-rem) * 4) 0;
-  border-bottom: var(--token-border-rem-3) solid;
+  background: var(--token-color-peach);
 }

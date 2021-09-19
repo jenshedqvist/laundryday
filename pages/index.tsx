@@ -21,6 +21,7 @@ import Container from '../components/container';
 import Text from '../components/text';
 import Card from '../components/card';
 import UtzList from '../components/utzList';
+import buttonStyles from '../components/button/button.module.css';
 import spaceUtil from '../styles/utils/space.module.css';
 import flexUtils from '../styles/utils/flex.module.css';
 
@@ -45,8 +46,7 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
       </Head>
       <Header />
       <Container>
-        <Text.Prose>
-          <h2>Current availability</h2>
+        <Text.Prose className={spaceUtil.mt4}>
           {weeklyCalendar
             .filter(function filterThreeWeeks(weeklyDates: WeeklyDates) {
               return isWithinRange(weekRange, weeklyDates.week);
@@ -106,28 +106,12 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
                 </div>
               );
             })}
-
-          <p>
-            <small>(your current bookings not included)</small>
-          </p>
-          <h3>View and manage your bookings:</h3>
-          <p>[Form]</p>
-          <button
-            onClick={(event) => {
-              event.preventDefault();
-              setIsAuthenticated(true);
-            }}
-          >
-            TEST LOGIN
-          </button>
-          <p>
-            <Link href={`/${Routes.Login}`}>Log in</Link>
-          </p>
-          <p>
-            Don't have an account?{' '}
-            <Link href={`/${Routes.Register}`}>Create one here</Link>
-          </p>
         </Text.Prose>
+        <div style={{ textAlign: 'center' }} className={spaceUtil.mt5}>
+          <Link href={`/${Routes.Login}`}>
+            <a className={buttonStyles.button}>Login to manage bookings</a>
+          </Link>
+        </div>
       </Container>
       <Footer />
     </>

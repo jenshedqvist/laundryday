@@ -13,7 +13,7 @@
   height: var(--size);
   border-radius: var(--size);
   overflow: hidden;
-  box-shadow: 0 0 0 calc(var(--size) / 15) silver;
+  box-shadow: 0 0 0 calc(var(--size) / 15) white;
 }
 .laundry {
   border: solid calc(var(--size) / 2);
@@ -31,9 +31,10 @@
   width: var(--size);
   height: var(--size);
   border-radius: 100%;
-  background-color: #fff;
+  background-color: var(--token-color-peach);
   animation: rotate-unevenly var(--animation-speed) infinite ease-in-out;
   transform: translate(0%, -15%);
+  box-shadow: 0 -1px 0 1px white inset;
 }
 
 @keyframes rotate {
