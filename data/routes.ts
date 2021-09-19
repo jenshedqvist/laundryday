@@ -1,7 +1,7 @@
 enum Routes {
   Home = '/',
   Overview = 'overview',
-  Calendar = 'calendar',
+  Calendar = 'week',
   Register = 'register',
   Login = 'login',
 }

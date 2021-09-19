@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const pipe =
   (...fns: Function[]) =>
   (x: any) =>
@@ -38,3 +40,11 @@ export const groupBy = (
     groupedList[group].push(currentItem);
     return groupedList;
   }, {} as groupedList);
+
+export function passProps(reactChildren: React.ReactNode, props: object) {
+  return React.Children.map(reactChildren, (element) => {
+    if (React.isValidElement(element)) {
+      return React.cloneElement(element, props);
+    }
+  });
+}

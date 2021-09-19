@@ -25,7 +25,7 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
   const weekRange = [thisWeekNum, thisWeekNum + 2];
   const weeklyCalendar: WeeklyDates[] = getWeekDates(weekRange).map(
     (dates, index) => ({
-      week: thisWeekNum + index,
+      week: weekRange[0] + index,
       dates,
     })
   );
@@ -52,7 +52,7 @@ export default function Home({ bookings }: { bookings: Booking[] }) {
                       className={`${flexUtils.flex} ${flexUtils.justifyBetween} ${flexUtils.alignBaseline}`}
                     >
                       <h3>
-                        <Link href={`/${Routes.Calendar}`}>
+                        <Link href={`/${Routes.Calendar}/${weeklyDates.week}`}>
                           {`Week ${weeklyDates.week}`}
                         </Link>
                       </h3>

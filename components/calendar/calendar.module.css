@@ -1,0 +1,102 @@
+.calendar {
+  --weekday-labels-height: var(--token-fluid-base-font-size);
+  --calendar-bg-color: white;
+
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: auto 1fr;
+  background: var(--calendar-bg-color);
+}
+
+.header {
+  width: 100%;
+  margin-bottom: var(--token-fluid-base-font-size);
+}
+
+.dates {
+  width: 100%;
+}
+.body {
+  position: relative;
+  padding-top: var(--weekday-labels-height);
+}
+.axis {
+  position: absolute;
+  z-index: 0;
+  top: var(--weekday-labels-height);
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.axisHour {
+  position: relative;
+}
+.axisHour::before {
+  content: '';
+  display: block;
+  width: 100%;
+  border-top: 1px solid #ccc;
+}
+.axisText {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  background: var(--calendar-bg-color);
+  padding-right: 0.25rem;
+  text-decoration: none;
+  color: var(--token-color-text-secondary);
+}
+
+.weekdays {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+  padding-left: 30px;
+  min-height: 50vh;
+
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-column-gap: 0.5rem;
+}
+
+.day {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.dayName {
+  position: absolute;
+  top: calc(var(--weekday-labels-height) * -1);
+  height: var(--weekday-labels-height);
+  margin: 0;
+  font-weight: normal;
+  font-size: var(--token-font-size-tiny);
+  color: var(--token-color-text-secondary);
+}
+
+.hourGrid {
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(calc(var(--hoursTotal) + 1), 1fr);
+}
+
+.event {
+  --start: 0;
+  --end: 0;
+  --bg: var(--token-color-grey-light);
+
+  box-shadow: 0 0 var(--hoursTotal) 0 red;
+  grid-column: 1 / 2;
+  grid-row: calc(var(--start) - (var(--hoursStart) - 1)) /
+    calc(var(--end) - (var(--hoursStart) - 1));
+  background-color: var(--bg);
+}
+
+.event.booked {
+  --bg: purple;
+}
