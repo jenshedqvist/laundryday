@@ -19,20 +19,23 @@
   font-size: var(--token-font-size-lvl-3);
   line-height: var(--token-font-scale);
   font-weight: 600;
-  color: var(--token-color-yellow-dark);
   margin: 0;
 }
 
+.paragraph,
 .prose p {
   font-size: var(--token-fluid-base-font-size);
   line-height: 1.5;
   margin-bottom: 1rem;
 }
+
+.smallPrint,
 .prose small {
   font-size: calc(var(--token-fluid-base-font-size) * 0.75);
-  color: var(--token-color-yellow-dark);
+  color: var(--token-color-text-secondary);
 }
 
+.link,
 .prose a {
   color: var(--token-color-interactive);
 }

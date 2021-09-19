@@ -10,8 +10,35 @@
   --token-color-blue-dark: hsl(207, 93%, 22%);
   --token-color-green: hsl(138, 60%, 53%);
   --token-color-green-dark: hsl(138, 50%, 33%);
+  --token-color-black: hsl(10, 10%, 0%);
+
+  /* Greys */
+  --token-min-lightness-large-text: 45%;
+  --token-min-lightness-small-text: 40%;
+  --token-grey-hue: 10;
+  --token-grey-saturation: 10%;
+  --token-grey-lightness: 10%;
+  --token-color-grey: hsl(
+    var(--token-grey-hue),
+    var(--token-grey-saturation),
+    var(--token-min-lightness-small-text)
+  );
+  --token-color-grey-light: hsl(
+    var(--token-grey-hue),
+    var(--token-grey-saturation),
+    var(--token-min-lightness-large-text)
+  );
 
   /* Semantic colors */
   --token-color-interactive: var(--token-color-blue);
-  --token-color-body: hsl(9, 83%, 95%);
+  --token-bg-body: hsl(9, 83%, 95%);
+  --token-color-text-primary: var(--token-color-black);
+  --token-color-text-secondary: var(--token-color-grey);
+}
+
+@media (min-width: 768px) {
+  :root {
+    /* Larger text can be more grey */
+    --token-color-text-secondary: var(--token-color-grey-light);
+  }
 }

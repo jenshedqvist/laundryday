@@ -3,7 +3,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: var(--token-base-font);
-  background-color: var(--token-color-body);
+  background-color: var(--token-bg-body);
+  color: var(--token-color-text-primary);
 }
 
 * {
