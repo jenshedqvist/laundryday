@@ -9,7 +9,7 @@
       var(--token-font-scale)
   );
   --token-font-size-lvl-2: calc(
-    var(--token-fluid-base-font-size) * var(--token-font-scale) *
+    var(--token-fluid-base-font-size) * var(--token-font-scale)
   );
   --token-font-size-lvl-3: calc(
     var(--token-fluid-base-font-size) * var(--token-font-scale)
