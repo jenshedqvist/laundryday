@@ -3,6 +3,18 @@
   --token-base-font: Roboto, sans-serif;
   --token-fluid-base-font-size: calc(0.75rem + (375px * 0.02));
   --token-font-scale: 1.33333;
+
+  --token-font-size-lvl-1: calc(
+    var(--token-fluid-base-font-size) * var(--token-font-scale) *
+      var(--token-font-scale)
+  );
+  --token-font-size-lvl-2: calc(
+    var(--token-fluid-base-font-size) * var(--token-font-scale) *
+  );
+  --token-font-size-lvl-3: calc(
+    var(--token-fluid-base-font-size) * var(--token-font-scale)
+  );
+  --token-font-size-small: calc(var(--token-fluid-base-font-size) * 0.75);
 }
 
 @media (min-width: 375px) {
